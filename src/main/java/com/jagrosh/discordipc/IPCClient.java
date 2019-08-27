@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 
 /**
@@ -444,7 +443,6 @@ public final class IPCClient implements Closeable
      */
     private static int getPID()
     {
-        String pr = ManagementFactory.getRuntimeMXBean().getName();
-        return Integer.parseInt(pr.substring(0,pr.indexOf('@')));
+        return (int)ProcessHandle.current().pid();
     }
 }
