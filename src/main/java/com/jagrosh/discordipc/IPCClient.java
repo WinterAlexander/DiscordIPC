@@ -171,6 +171,16 @@ public final class IPCClient implements Closeable
                                         .put("activity",presence == null ? null : presence.toJson())), callback);
     }
 
+    public void registerCommand(String command, Callback callback)
+    {
+        checkConnected(true);
+        pipe.send(OpCode.FRAME, new JSONObject()
+                .put("cmd", "REGISTER_COMMAND")
+                .put("args", new JSONObject()
+                        .put("pid", getPID())
+                        .put("command", command)), callback);
+    }
+
     /**
      * Adds an event {@link Event} to this IPCClient.<br>
      * If the provided {@link Event} is added more than once,
@@ -441,8 +451,8 @@ public final class IPCClient implements Closeable
      *
      * @return The current process ID.
      */
-    private static int getPID()
+    private static long getPID()
     {
-        return (int)ProcessHandle.current().pid();
+        return ProcessHandle.current().pid();
     }
 }

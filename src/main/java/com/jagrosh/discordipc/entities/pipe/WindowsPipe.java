@@ -31,7 +31,6 @@ import java.util.HashMap;
 
 public class WindowsPipe extends Pipe
 {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(WindowsPipe.class);
 
     private final RandomAccessFile file;
@@ -85,5 +84,4 @@ public class WindowsPipe extends Pipe
         status = PipeStatus.CLOSED;
         file.close();
     }
-
 }
