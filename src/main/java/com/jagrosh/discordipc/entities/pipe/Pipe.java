@@ -24,6 +24,7 @@ import com.jagrosh.discordipc.entities.Packet;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.newsclub.net.unix.AFUNIXSocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -150,7 +151,7 @@ public abstract class Pipe {
         return pipe;
     }
 
-    private static Pipe createPipe(IPCClient ipcClient, HashMap<String, Callback> callbacks, String location) {
+    private static Pipe createPipe(IPCClient ipcClient, HashMap<String, Callback> callbacks, String location) throws NoDiscordClientException {
         String osName = System.getProperty("os.name").toLowerCase();
 
         if (osName.contains("win"))
@@ -161,6 +162,10 @@ public abstract class Pipe {
         {
             try {
                 return new UnixPipe(ipcClient, callbacks, location);
+            }
+            catch(AFUNIXSocketException ex)
+            {
+                throw new NoDiscordClientException(ex);
             }
             catch (IOException e)
             {

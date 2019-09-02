@@ -29,5 +29,20 @@ import com.jagrosh.discordipc.entities.DiscordBuild;
  */
 public class NoDiscordClientException extends Exception
 {
-    
+	public NoDiscordClientException() {}
+
+	public NoDiscordClientException(String message)
+	{
+		super(message);
+	}
+
+	public NoDiscordClientException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
+
+	public NoDiscordClientException(Throwable cause)
+	{
+		super(cause);
+	}
 }
