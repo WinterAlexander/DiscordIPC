@@ -20,6 +20,9 @@ import com.jagrosh.discordipc.entities.Packet.OpCode;
 import com.jagrosh.discordipc.entities.pipe.Pipe;
 import com.jagrosh.discordipc.entities.pipe.PipeStatus;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.Kernel32;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -28,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Represents a Discord IPC Client that can send and receive
@@ -163,12 +167,12 @@ public final class IPCClient implements Closeable
     public void sendRichPresence(RichPresence presence, Callback callback)
     {
         checkConnected(true);
-        LOGGER.debug("Sending RichPresence to discord: "+(presence == null ? null : presence.toJson().toString()));
+        LOGGER.debug("Sending RichPresence to discord: " + (presence == null ? null : presence.toJson().toString()));
         pipe.send(OpCode.FRAME, new JSONObject()
                             .put("cmd","SET_ACTIVITY")
                             .put("args", new JSONObject()
-                                        .put("pid",getPID())
-                                        .put("activity",presence == null ? null : presence.toJson())), callback);
+                                        .put("pid", getPID())
+                                        .put("activity", presence == null ? null : presence.toJson())), callback);
     }
 
     /**
@@ -441,8 +445,23 @@ public final class IPCClient implements Closeable
      *
      * @return The current process ID.
      */
-    private static long getPID()
+    public static long getPID()
     {
-        return ProcessHandle.current().pid();
+        String osName = System.getProperty("os.name").toUpperCase(Locale.ENGLISH);
+
+        if(osName.contains("WIN"))
+            return Kernel32.INSTANCE.GetCurrentProcessId();
+
+        if(osName.contains("MAC") || osName.contains("NUX"))
+            return CLibrary.INSTANCE.getpid();
+
+        throw new RuntimeException("Can't get PID");
+    }
+
+    private interface CLibrary extends Library
+    {
+        CLibrary INSTANCE = (CLibrary) Native.loadLibrary("c", CLibrary.class);
+
+        int getpid();
     }
 }
