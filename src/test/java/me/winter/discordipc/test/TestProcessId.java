@@ -10,11 +10,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author Alexander Winter
  */
-public class TestProcessId
-{
+public class TestProcessId {
 	@Test
-	public void testPID()
-	{
+	public void testPID() {
 		System.out.println(IPCClient.getPID());
 	}
 }
