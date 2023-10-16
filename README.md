@@ -1,11 +1,6 @@
-[version]: https://api.bintray.com/packages/jagrosh/maven/DiscordIPC/images/download.svg
-[download]: https://bintray.com/jagrosh/maven/DiscordIPC/_latestVersion
-[license]: https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg
-
-[ ![version][] ][download]
-[ ![license][] ](https://github.com/jagrosh/DiscordIPC/tree/master/LICENSE)
-
 # DiscordIPC
+
+[![](https://jitpack.io/v/WinterAlexander/DiscordIPC.svg)](https://jitpack.io/#WinterAlexander/DiscordIPC)
 
 Connect locally to the Discord client using IPC for a subset of RPC features like Rich Presence and Activity Join/Spectate
 
@@ -20,31 +15,8 @@ Connect locally to the Discord client using IPC for a subset of RPC features lik
 
 # Getting Started
 
-First you'll need to add this project as a dependency. If you're using maven:
-```xml
-  <dependency>
-    <groupId>com.jagrosh</groupId>
-    <artifactId>DiscordIPC</artifactId>
-    <version>LATEST</version>
-  </dependency>
-```
-```xml
-  <repository>
-    <id>central</id>
-    <name>bintray</name>
-    <url>http://jcenter.bintray.com</url>
-  </repository>
-```
-With gradle:
-```groovy
-dependencies {
-    compile 'com.jagrosh:DiscordIPC:LATEST'
-}
-
-repositories {
-    jcenter()
-}
-```
+To use this fork, follow the instructions in [JitPack.io](https://jitpack.io/#WinterAlexander/DiscordIPC/1.1.1). 
+You may also use the [upstream version](https://github.com/jagrosh/DiscordIPC) which may work for you. For me it did not work due to the way it attemps to get the PID of the process. This fork only fixes that.
 
 # Example
 
